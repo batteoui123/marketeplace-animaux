@@ -8,7 +8,12 @@ export function formatPrice(price: number, locale?: Locale): string {
 }
 
 export function getWhatsAppLink(phone: string, message?: string): string {
-  const cleaned = phone.replace(/\D/g, '');
+  let cleaned = phone.replace(/\D/g, '');
+  if (cleaned.startsWith('0')) {
+    cleaned = '212' + cleaned.slice(1);
+  } else if (!cleaned.startsWith('212')) {
+    cleaned = '212' + cleaned;
+  }
   const encoded = message ? `?text=${encodeURIComponent(message)}` : '';
   return `${WHATSAPP_BASE}${cleaned}${encoded}`;
 }

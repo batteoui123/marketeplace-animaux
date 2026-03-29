@@ -4,7 +4,7 @@ export const MOCK_SELLERS: Seller[] = [
   {
     id: 's1',
     name: 'ياسين المنصوري',
-    phone: '+212661234567',
+    phone: '0654579050',
     email: 'yassine@example.com',
     city: 'Casablanca',
     avatar: 'https://placehold.co/80x80/0EA5E9/ffffff?text=ي',
@@ -15,7 +15,7 @@ export const MOCK_SELLERS: Seller[] = [
   {
     id: 's2',
     name: 'فاطمة الزهراء',
-    phone: '+212662345678',
+    phone: '0654579050',
     city: 'Rabat',
     avatar: 'https://placehold.co/80x80/EC4899/ffffff?text=ف',
     createdAt: new Date('2024-02-20'),
@@ -24,7 +24,7 @@ export const MOCK_SELLERS: Seller[] = [
   {
     id: 's3',
     name: 'Karim Bennani',
-    phone: '+212663456789',
+    phone: '0654579050',
     email: 'karim@example.com',
     city: 'Marrakech',
     avatar: 'https://placehold.co/80x80/8B5CF6/ffffff?text=K',
@@ -35,7 +35,7 @@ export const MOCK_SELLERS: Seller[] = [
   {
     id: 's4',
     name: 'Nadia Tahiri',
-    phone: '+212664567890',
+    phone: '0654579050',
     city: 'Fès',
     avatar: 'https://placehold.co/80x80/10B981/ffffff?text=N',
     createdAt: new Date('2024-04-05'),
@@ -44,7 +44,7 @@ export const MOCK_SELLERS: Seller[] = [
   {
     id: 's5',
     name: 'محمد أمين',
-    phone: '+212665678901',
+    phone: '0654579050',
     city: 'Tanger',
     avatar: 'https://placehold.co/80x80/F59E0B/ffffff?text=م',
     createdAt: new Date('2024-05-12'),

@@ -15,7 +15,7 @@ export default function WhatsAppFloat() {
 
   return (
     <a
-      href={`https://wa.me/212600000000?text=${encodeURIComponent(message)}`}
+      href={`https://wa.me/212654579050?text=${encodeURIComponent(message)}`}
       target="_blank"
       rel="noopener noreferrer"
       className="wa-float group"

@@ -143,7 +143,7 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-white/10 px-4 py-4">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
-          <span>© 2024 AnimalSouk. {locale === 'ar' ? 'جميع الحقوق محفوظة' : locale === 'fr' ? 'Tous droits réservés' : 'All rights reserved'}.</span>
+          <span>© 2026 AnimalSouk. {locale === 'ar' ? 'جميع الحقوق محفوظة' : locale === 'fr' ? 'Tous droits réservés' : 'All rights reserved'}.</span>
           <div className="flex gap-4">
             <a href="#" className="hover:text-slate-300 transition-colors">{locale === 'ar' ? 'سياسة الخصوصية' : locale === 'fr' ? 'Confidentialité' : 'Privacy'}</a>
             <a href="#" className="hover:text-slate-300 transition-colors">{locale === 'ar' ? 'شروط الاستخدام' : locale === 'fr' ? 'CGU' : 'Terms'}</a>

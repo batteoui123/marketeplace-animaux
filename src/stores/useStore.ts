@@ -2,7 +2,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Animal, Seller } from '@/lib/types';
+import type { Animal, Seller, Promotion } from '@/lib/types';
 
 interface StoreState {
   favorites: string[];
@@ -28,6 +28,24 @@ interface StoreState {
   addPendingAnimal: (animal: Animal) => void;
   updateAnimal: (id: string, updates: Partial<Animal>) => void;
   markAsSold: (id: string) => void;
+
+  // Admin actions
+  deletedSellerIds: string[];
+  deleteSeller: (id: string) => void;
+  verifiedSellerIds: string[];
+  toggleSellerVerified: (id: string) => void;
+  adminApprovedIds: string[];
+  adminRejected: Record<string, string>; // id -> reason
+  adminApprove: (id: string) => void;
+  adminReject: (id: string, reason: string) => void;
+  adminDeleteAnimal: (id: string) => void;
+  adminDeletedAnimalIds: string[];
+
+  // Promotions
+  promotions: Promotion[];
+  addPromotion: (promo: Promotion) => void;
+  togglePromotion: (id: string) => void;
+  deletePromotion: (id: string) => void;
 }
 
 export const useStore = create<StoreState>()(
@@ -69,10 +87,54 @@ export const useStore = create<StoreState>()(
             a.id === id ? { ...a, status: 'sold', updatedAt: new Date() } : a
           ),
         })),
+
+      // Admin
+      deletedSellerIds: [],
+      deleteSeller: (id) =>
+        set((state) => ({ deletedSellerIds: [...state.deletedSellerIds, id] })),
+      verifiedSellerIds: [],
+      toggleSellerVerified: (id) =>
+        set((state) => ({
+          verifiedSellerIds: state.verifiedSellerIds.includes(id)
+            ? state.verifiedSellerIds.filter((s) => s !== id)
+            : [...state.verifiedSellerIds, id],
+        })),
+      adminApprovedIds: [],
+      adminRejected: {},
+      adminApprove: (id) =>
+        set((state) => ({ adminApprovedIds: [...state.adminApprovedIds, id] })),
+      adminReject: (id, reason) =>
+        set((state) => ({ adminRejected: { ...state.adminRejected, [id]: reason } })),
+      adminDeleteAnimal: (id) =>
+        set((state) => ({ adminDeletedAnimalIds: [...state.adminDeletedAnimalIds, id] })),
+      adminDeletedAnimalIds: [],
+
+      // Promotions
+      promotions: [],
+      addPromotion: (promo) =>
+        set((state) => ({ promotions: [...state.promotions, promo] })),
+      togglePromotion: (id) =>
+        set((state) => ({
+          promotions: state.promotions.map((p) =>
+            p.id === id ? { ...p, active: !p.active } : p
+          ),
+        })),
+      deletePromotion: (id) =>
+        set((state) => ({ promotions: state.promotions.filter((p) => p.id !== id) })),
     }),
     {
       name: 'animalsouk-store',
-      partialize: (state) => ({ favorites: state.favorites, currentSeller: state.currentSeller, pendingAnimals: state.pendingAnimals }),
+      partialize: (state) => ({
+        favorites: state.favorites,
+        currentSeller: state.currentSeller,
+        pendingAnimals: state.pendingAnimals,
+        deletedSellerIds: state.deletedSellerIds,
+        verifiedSellerIds: state.verifiedSellerIds,
+        adminApprovedIds: state.adminApprovedIds,
+        adminRejected: state.adminRejected,
+        adminDeletedAnimalIds: state.adminDeletedAnimalIds,
+        promotions: state.promotions,
+      }),
     }
   )
 );

@@ -47,4 +47,15 @@ export interface Category {
   subCategories?: string[];
 }
 
+export interface Promotion {
+  id: string;
+  title: { ar: string; fr: string; en: string };
+  description: { ar: string; fr: string; en: string };
+  type: 'free_listing' | 'discount' | 'featured';
+  active: boolean;
+  startDate: Date;
+  endDate: Date;
+  createdAt: Date;
+}
+
 export type Locale = 'ar' | 'fr' | 'en';

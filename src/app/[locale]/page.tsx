@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import { CATEGORIES } from '@/lib/constants';
 import { MOCK_ANIMALS } from '@/lib/mock-data';
 import AnimalCard from '@/components/animals/AnimalCard';
+import CategoryCard from '@/components/home/CategoryCard';
 import SearchBar from '@/components/common/SearchBar';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
@@ -99,28 +100,17 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
         {/* ── Categories with count ── */}
         <section className="max-w-7xl mx-auto px-4 py-10">
-          <h2 className="text-lg font-bold text-gray-900 mb-5">{t('home.categories_title')}</h2>
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3">
-            {CATEGORIES.map((cat) => {
-              const count = countByCategory[cat.slug] ?? 0;
-              return (
-                <Link
-                  key={cat.slug}
-                  href={`/${locale}/categories/${cat.slug}`}
-                  className="flex flex-col items-center gap-2 p-3 bg-white rounded-2xl border border-gray-100 hover:border-green-400 hover:shadow-sm transition-all group relative"
-                >
-                  <span className="text-3xl">{cat.emoji}</span>
-                  <span className="text-xs font-medium text-gray-700 group-hover:text-green-700 text-center leading-tight">
-                    {getLocalizedText(cat.label, loc)}
-                  </span>
-                  {count > 0 && (
-                    <span className="absolute -top-1.5 -end-1.5 bg-green-600 text-white text-[10px] font-bold rounded-full min-w-[18px] h-[18px] flex items-center justify-center px-1">
-                      {count}
-                    </span>
-                  )}
-                </Link>
-              );
-            })}
+          <h2 className="text-lg font-bold text-gray-900 mb-6">{t('home.categories_title')}</h2>
+          <div className="flex gap-5 md:gap-6 overflow-x-auto pb-4 scroll-hide md:grid md:grid-cols-6 lg:grid-cols-11 md:overflow-visible">
+            {CATEGORIES.map((cat) => (
+              <div key={cat.slug} className="shrink-0">
+                <CategoryCard
+                  category={cat}
+                  locale={loc}
+                  count={countByCategory[cat.slug] ?? 0}
+                />
+              </div>
+            ))}
           </div>
         </section>
 

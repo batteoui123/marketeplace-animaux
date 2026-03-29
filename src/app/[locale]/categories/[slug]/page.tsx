@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import { CATEGORIES } from '@/lib/constants';
@@ -30,7 +31,18 @@ export default async function CategoryPage({
       <Header />
       <main className="flex-1 max-w-7xl mx-auto px-4 py-8 w-full">
         <div className="flex items-center gap-3 mb-6">
-          <span className="text-3xl">{category.emoji}</span>
+          <div
+            className="w-10 h-10 rounded-full overflow-hidden border-2 border-white shadow-sm shrink-0"
+            style={{ boxShadow: `0 2px 8px ${category.color}30` }}
+          >
+            <Image
+              src={category.image}
+              alt={getLocalizedText(category.label, loc)}
+              width={40}
+              height={40}
+              className="w-full h-full object-cover"
+            />
+          </div>
           <h1 className="text-xl font-bold text-gray-900">
             {getLocalizedText(category.label, loc)}
           </h1>

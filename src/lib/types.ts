@@ -41,6 +41,7 @@ export type SellerBadge = 'verified' | 'active' | 'top';
 export interface Category {
   slug: string;
   emoji: string;
+  image: string;
   color: string;
   label: { ar: string; fr: string; en: string };
   subCategories?: string[];

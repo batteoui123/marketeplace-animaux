@@ -54,10 +54,21 @@ export default function AnimalCard({ animal }: Props) {
 
           {/* Category badge */}
           <span
-            className="absolute top-2 start-2 text-white text-[11px] font-semibold px-2 py-1 rounded-full backdrop-blur-sm"
+            className="absolute top-2 start-2 flex items-center gap-1 text-white text-[11px] font-semibold ps-0.5 pe-2 py-0.5 rounded-full backdrop-blur-sm"
             style={{ backgroundColor: category?.color ?? '#16A34A' }}
           >
-            {category?.emoji} {getLocalizedText(category?.label ?? { ar: '', fr: '', en: '' }, locale)}
+            {category?.image ? (
+              <Image
+                src={category.image}
+                alt=""
+                width={20}
+                height={20}
+                className="w-5 h-5 rounded-full object-cover border border-white/30"
+              />
+            ) : (
+              <span>{category?.emoji}</span>
+            )}
+            {getLocalizedText(category?.label ?? { ar: '', fr: '', en: '' }, locale)}
           </span>
 
           {/* "Nouveau" badge */}

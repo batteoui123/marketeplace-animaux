@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { useStore } from '@/stores/useStore';
 import { CATEGORIES, CITIES } from '@/lib/constants';
@@ -47,13 +48,19 @@ export default function AnimalFilters() {
           <button
             key={cat.slug}
             onClick={() => setFilter('filterCategory', filterCategory === cat.slug ? '' : cat.slug)}
-            className={`shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold border transition-all ${
+            className={`shrink-0 flex items-center gap-1.5 ps-1 pe-3 py-1 rounded-full text-xs font-semibold border transition-all ${
               filterCategory === cat.slug
                 ? 'bg-green-600 text-white border-green-600'
                 : 'bg-white text-gray-600 border-gray-200 hover:border-green-400'
             }`}
           >
-            <span>{cat.emoji}</span>
+            <Image
+              src={cat.image}
+              alt=""
+              width={24}
+              height={24}
+              className="w-6 h-6 rounded-full object-cover"
+            />
             <span>{getLocalizedText(cat.label, locale)}</span>
           </button>
         ))}

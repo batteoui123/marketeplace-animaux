@@ -1,8 +1,10 @@
-import type { Locale } from './types';
+import type { Locale, Seller, SellerBadge } from './types';
 import { WHATSAPP_BASE } from './constants';
 
-export function formatPrice(price: number): string {
-  return new Intl.NumberFormat('fr-MA').format(price) + ' MAD';
+export function formatPrice(price: number, locale?: Locale): string {
+  const formatted = new Intl.NumberFormat('fr-MA', { maximumFractionDigits: 0 }).format(price);
+  if (locale === 'ar') return formatted + ' درهم';
+  return formatted + ' DH';
 }
 
 export function getWhatsAppLink(phone: string, message?: string): string {
@@ -32,4 +34,12 @@ export function timeAgo(date: Date, locale: Locale): string {
   }
   const months = Math.floor(days / 30);
   return locale === 'ar' ? `منذ ${months} شهر` : locale === 'fr' ? `il y a ${months} mois` : `${months}mo ago`;
+}
+
+export function getSellerBadges(seller: Seller): SellerBadge[] {
+  const badges: SellerBadge[] = [];
+  if (seller.isVerified) badges.push('verified');
+  if (seller.totalAds >= 5) badges.push('active');
+  if (seller.totalAds >= 10) badges.push('top');
+  return badges;
 }

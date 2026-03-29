@@ -193,4 +193,4 @@ Pour le développement frontend, utiliser des données fictives réalistes :
 - Chat intégré (la communication passe par WhatsApp/téléphone)
 - Système de notation/avis
 - Livraison
-- Backend / API (sera développé dans une phase ultérieure)
+- Backend / API (sera développé dans une phase ultérieure) 

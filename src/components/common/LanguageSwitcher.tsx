@@ -5,9 +5,9 @@ import { Globe } from 'lucide-react';
 import { useState } from 'react';
 
 const LANGS = [
-  { code: 'ar', label: 'العربية' },
-  { code: 'fr', label: 'Français' },
-  { code: 'en', label: 'English' },
+  { code: 'ar', label: 'العربية', flag: '🇲🇦' },
+  { code: 'fr', label: 'Français', flag: '🇫🇷' },
+  { code: 'en', label: 'English', flag: '🇬🇧' },
 ];
 
 export default function LanguageSwitcher() {
@@ -27,22 +27,22 @@ export default function LanguageSwitcher() {
     <div className="relative">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 p-2 text-gray-600 hover:text-green-700 transition-colors"
-        aria-label="Change language"
+        className="flex items-center gap-1 p-2 text-slate-500 hover:text-[#0EA5E9] transition-colors rounded-lg hover:bg-sky-50"
       >
         <Globe size={18} />
-        <span className="text-xs font-medium uppercase hidden sm:block">{currentLocale}</span>
+        <span className="text-xs font-semibold uppercase hidden sm:block">{currentLocale}</span>
       </button>
       {open && (
-        <div className="absolute end-0 top-full mt-1 w-36 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-50">
+        <div className="absolute end-0 top-full mt-1 w-40 bg-white rounded-2xl shadow-xl border border-slate-100 py-1 z-50">
           {LANGS.map((lang) => (
             <button
               key={lang.code}
               onClick={() => switchLocale(lang.code)}
-              className={`w-full text-start px-4 py-2 text-sm transition-colors hover:bg-green-50 hover:text-green-700 ${
-                currentLocale === lang.code ? 'text-green-700 font-semibold bg-green-50' : 'text-gray-700'
+              className={`w-full flex items-center gap-2.5 text-start px-4 py-2.5 text-sm transition-colors hover:bg-sky-50 hover:text-[#0EA5E9] ${
+                currentLocale === lang.code ? 'text-[#0EA5E9] font-semibold bg-sky-50' : 'text-slate-700'
               }`}
             >
+              <span>{lang.flag}</span>
               {lang.label}
             </button>
           ))}

@@ -16,12 +16,18 @@ interface StoreState {
   filterCity: string;
   filterMinPrice: number;
   filterMaxPrice: number;
+  filterVaccinated: boolean;
+  filterPedigree: boolean;
+  filterGender: string;
+  sortBy: string;
   searchQuery: string;
-  setFilter: (key: string, value: string | number) => void;
+  setFilter: (key: string, value: string | number | boolean) => void;
   resetFilters: () => void;
 
   pendingAnimals: Animal[];
   addPendingAnimal: (animal: Animal) => void;
+  updateAnimal: (id: string, updates: Partial<Animal>) => void;
+  markAsSold: (id: string) => void;
 }
 
 export const useStore = create<StoreState>()(
@@ -41,16 +47,32 @@ export const useStore = create<StoreState>()(
       filterCity: '',
       filterMinPrice: 0,
       filterMaxPrice: 0,
+      filterVaccinated: false,
+      filterPedigree: false,
+      filterGender: '',
+      sortBy: 'newest',
       searchQuery: '',
       setFilter: (key, value) => set({ [key]: value } as Partial<StoreState>),
-      resetFilters: () => set({ filterCategory: '', filterCity: '', filterMinPrice: 0, filterMaxPrice: 0, searchQuery: '' }),
+      resetFilters: () => set({ filterCategory: '', filterCity: '', filterMinPrice: 0, filterMaxPrice: 0, filterVaccinated: false, filterPedigree: false, filterGender: '', sortBy: 'newest', searchQuery: '' }),
 
       pendingAnimals: [],
       addPendingAnimal: (animal) => set((state) => ({ pendingAnimals: [...state.pendingAnimals, animal] })),
+      updateAnimal: (id, updates) =>
+        set((state) => ({
+          pendingAnimals: state.pendingAnimals.map((a) =>
+            a.id === id ? { ...a, ...updates, status: 'pending', updatedAt: new Date() } : a
+          ),
+        })),
+      markAsSold: (id) =>
+        set((state) => ({
+          pendingAnimals: state.pendingAnimals.map((a) =>
+            a.id === id ? { ...a, status: 'sold', updatedAt: new Date() } : a
+          ),
+        })),
     }),
     {
       name: 'animalsouk-store',
-      partialize: (state) => ({ favorites: state.favorites, currentSeller: state.currentSeller }),
+      partialize: (state) => ({ favorites: state.favorites, currentSeller: state.currentSeller, pendingAnimals: state.pendingAnimals }),
     }
   )
 );

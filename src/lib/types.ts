@@ -12,7 +12,7 @@ export interface Animal {
   gender?: 'male' | 'female' | 'unknown';
   city: string;
   photos: string[];
-  video?: string;
+  videos?: string[];
   vaccinated?: boolean;
   pedigree?: boolean;
   weight?: string;
@@ -33,11 +33,15 @@ export interface Seller {
   createdAt: Date;
   totalAds: number;
   rating?: number;
+  isVerified?: boolean;
 }
+
+export type SellerBadge = 'verified' | 'active' | 'top';
 
 export interface Category {
   slug: string;
   emoji: string;
+  color: string;
   label: { ar: string; fr: string; en: string };
   subCategories?: string[];
 }

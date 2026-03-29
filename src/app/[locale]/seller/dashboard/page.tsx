@@ -34,6 +34,7 @@ export default function DashboardPage() {
   const currentSeller = useStore((s) => s.currentSeller);
   const setCurrentSeller = useStore((s) => s.setCurrentSeller);
   const pendingAnimals = useStore((s) => s.pendingAnimals);
+  const markAsSold = useStore((s) => s.markAsSold);
 
   useEffect(() => {
     if (!currentSeller) router.push(`/${locale}/seller/login`);
@@ -119,7 +120,7 @@ export default function DashboardPage() {
                   <div className="font-semibold text-gray-900 text-sm line-clamp-1">
                     {getLocalizedText(animal.title, locale)}
                   </div>
-                  <div className="text-green-700 font-bold text-sm mt-0.5">{formatPrice(animal.price)}</div>
+                  <div className="text-green-700 font-bold text-sm mt-0.5">{formatPrice(animal.price, locale)}</div>
                   <div className="flex items-center gap-1.5 mt-1">
                     {STATUS_ICON[animal.status]}
                     <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_BG[animal.status]}`}>
@@ -127,14 +128,32 @@ export default function DashboardPage() {
                     </span>
                   </div>
                 </div>
-                {animal.status === 'approved' && (
-                  <Link
-                    href={`/${locale}/animals/${animal.id}`}
-                    className="text-xs text-green-700 border border-green-200 px-3 py-1.5 rounded-xl hover:bg-green-50 transition-colors shrink-0"
-                  >
-                    {locale === 'ar' ? 'عرض' : locale === 'fr' ? 'Voir' : 'View'}
-                  </Link>
-                )}
+                <div className="flex items-center gap-2 shrink-0 flex-wrap justify-end">
+                  {animal.status === 'approved' && (
+                    <>
+                      <Link
+                        href={`/${locale}/animals/${animal.id}`}
+                        className="text-xs text-green-700 border border-green-200 px-3 py-1.5 rounded-xl hover:bg-green-50 transition-colors"
+                      >
+                        {locale === 'ar' ? 'عرض' : locale === 'fr' ? 'Voir' : 'View'}
+                      </Link>
+                      <button
+                        onClick={() => markAsSold(animal.id)}
+                        className="text-xs text-amber-700 border border-amber-200 px-3 py-1.5 rounded-xl hover:bg-amber-50 transition-colors"
+                      >
+                        {locale === 'ar' ? 'مباع' : locale === 'fr' ? 'Vendu' : 'Sold'}
+                      </button>
+                    </>
+                  )}
+                  {animal.status !== 'sold' && (
+                    <Link
+                      href={`/${locale}/seller/dashboard/edit/${animal.id}`}
+                      className="text-xs text-green-700 border border-green-200 px-3 py-1.5 rounded-xl hover:bg-green-50 transition-colors"
+                    >
+                      {locale === 'ar' ? 'تعديل' : locale === 'fr' ? 'Modifier' : 'Edit'}
+                    </Link>
+                  )}
+                </div>
               </div>
             ))}
           </div>

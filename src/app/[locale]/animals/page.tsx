@@ -12,32 +12,45 @@ import Footer from '@/components/layout/Footer';
 import type { Locale } from '@/lib/types';
 import { getLocalizedText } from '@/lib/utils';
 import { Suspense } from 'react';
+import { AnimalGridSkeleton } from '@/components/animals/AnimalCardSkeleton';
 
 function AnimalsContent() {
   const t = useTranslations();
   const params = useParams();
   const searchParams = useSearchParams();
   const locale = (params.locale as Locale) ?? 'ar';
-  const { filterCategory, filterCity, filterMinPrice, filterMaxPrice } = useStore();
+  const {
+    filterCategory, filterCity, filterMinPrice, filterMaxPrice,
+    filterVaccinated, filterPedigree, filterGender, sortBy,
+  } = useStore();
 
   const q = searchParams.get('q') ?? '';
 
-  const filtered = MOCK_ANIMALS.filter((a) => {
-    if (a.status !== 'approved') return false;
-    if (filterCategory && a.category !== filterCategory) return false;
-    if (filterCity && a.city !== filterCity) return false;
-    if (filterMinPrice > 0 && a.price < filterMinPrice) return false;
-    if (filterMaxPrice > 0 && a.price > filterMaxPrice) return false;
-    if (q) {
-      const query = q.toLowerCase();
-      const title = getLocalizedText(a.title, locale).toLowerCase();
-      const desc = getLocalizedText(a.description, locale).toLowerCase();
-      if (!title.includes(query) && !desc.includes(query) && !(a.breed ?? '').toLowerCase().includes(query)) {
-        return false;
+  const filtered = MOCK_ANIMALS
+    .filter((a) => {
+      if (a.status !== 'approved') return false;
+      if (filterCategory && a.category !== filterCategory) return false;
+      if (filterCity && a.city !== filterCity) return false;
+      if (filterMinPrice > 0 && a.price < filterMinPrice) return false;
+      if (filterMaxPrice > 0 && a.price > filterMaxPrice) return false;
+      if (filterVaccinated && !a.vaccinated) return false;
+      if (filterPedigree && !a.pedigree) return false;
+      if (filterGender && a.gender !== filterGender) return false;
+      if (q) {
+        const query = q.toLowerCase();
+        const title = getLocalizedText(a.title, locale).toLowerCase();
+        const desc = getLocalizedText(a.description, locale).toLowerCase();
+        if (!title.includes(query) && !desc.includes(query) && !(a.breed ?? '').toLowerCase().includes(query)) {
+          return false;
+        }
       }
-    }
-    return true;
-  });
+      return true;
+    })
+    .sort((a, b) => {
+      if (sortBy === 'price_asc') return a.price - b.price;
+      if (sortBy === 'price_desc') return b.price - a.price;
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+    });
 
   return (
     <>
@@ -60,7 +73,7 @@ export default function AnimalsPage() {
       <Header />
       <main className="flex-1 max-w-7xl mx-auto px-4 py-8 w-full">
         <h1 className="text-xl font-bold text-gray-900 mb-6">{t('nav.animals')}</h1>
-        <Suspense fallback={<div className="text-gray-400 py-12 text-center">{t('common.loading')}</div>}>
+        <Suspense fallback={<AnimalGridSkeleton count={8} />}>
           <AnimalsContent />
         </Suspense>
       </main>
